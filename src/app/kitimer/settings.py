@@ -39,6 +39,8 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'app.users',
     'app.timer',
+    'app.webfront',
+    'app.projects',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -70,7 +72,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'kitimer.kitimer.wsgi.application'
+WSGI_APPLICATION = 'app.kitimer.wsgi.application'
 
 
 # Database
