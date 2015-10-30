@@ -37,6 +37,8 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'app.users',
+    'app.timer',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -50,7 +52,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.security.SecurityMiddleware',
 )
 
-ROOT_URLCONF = 'kitimer.kitimer.urls'
+ROOT_URLCONF = 'app.kitimer.urls'
 
 TEMPLATES = [
     {
