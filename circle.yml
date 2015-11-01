@@ -4,8 +4,8 @@ machine:
 
 dependencies:
   pre:
-    - pip install -e .
+    - pip install .
 
 test:
   override:
-    - kitimer test app
+    - python src/manage.py test app
