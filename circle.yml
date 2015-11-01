@@ -4,7 +4,7 @@ machine:
 
 dependencies:
   pre:
-    - pip install .
+    - pip install -e .
 
 test:
   override:
