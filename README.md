@@ -1,6 +1,8 @@
 # KiTimer
 KiTimer is timer of workers.
 
+[![Circle CI](https://circleci.com/gh/pistatium/kitimer/tree/master.svg?style=svg)](https://circleci.com/gh/pistatium/kitimer/tree/master)
+
 
 ## Setup
 ```
