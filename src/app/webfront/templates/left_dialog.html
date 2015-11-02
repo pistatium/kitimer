@@ -1,0 +1,24 @@
+<md-dialog aria-label="Left" class="timer-dialog" ng-cloak>
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>LeftAt</h2>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <h1 class="time">[[ time ]]</h1>
+            <fieldset class="standard" flex>
+                <legend>Joined projects</legend>
+                <div flex="50" ng-repeat="project in projects">
+                    <md-checkbox ng-click="toggle(project.fields.name, joinedProject)">
+                        [[ project.fields.name ]]
+                    </md-checkbox>
+                </div>
+            </fieldset>
+            <div layout="row" class="dialog-actions">
+                <md-button class="md-raised" ng-click="onClickCancel()">Cancel</md-button>
+                <md-button class="md-raised md-accent" ng-click="onSubmitLeft()" flex>OK</md-button>
+            </div>
+        </md-dialog-content>
+    </form>
+</md-dialog>

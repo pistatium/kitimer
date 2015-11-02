@@ -1,7 +1,75 @@
 {% extends "base.html" %}
 
 {% block main %}
-    {% for user in users %}
-        {{ user.name }}
-    {% endfor %}
+    {{ uj }}
+    <div ng-controller="IndexController">
+        <md-list>
+            <md-list-item layout="row" ng-repeat="user in users">
+                {% include "includes/user_list_item.html" %}
+            </md-list-item>
+        </md-list>
+    </div>
+{% endblock %}
+
+{% block controller %} //<script>
+    var users = {{ users|safe }};
+    var projects = {{ projects|safe }};
+
+
+    app.controller('IndexController', function($scope, $mdDialog, $http) {
+        $scope.users = users;
+        $scope.projects = projects;
+
+        $scope.onClickCancel = function() {
+            $mdDialog.cancel();
+        };
+        $scope.onSubmitArrived = function() {
+            $http({
+                method: 'POST',
+                url: "{% url 'arrived_api' %}",
+                params: {
+
+                },
+                success: function() {
+                    $mdDialog.hide();
+                }
+            });
+        };
+        $scope.onSubmitLeft = function() {
+            $http({
+                method: 'POST',
+                url: "{% url 'left_api' %}",
+                params: {
+                    "joined_project": $scope.joined_project
+                },
+                success: function() {
+                    $mdDialog.hide();
+                }
+            });
+            $mdDialog.hide();
+        };
+
+        $scope.onClickArrived = function(user) {
+            $mdDialog.show({
+                templateUrl: "{% url 'arrived_dialog' %}",
+                scope: $scope,
+                clickOutsideToClose:true,
+                preserveScope: true,
+            });
+        };
+        $scope.onClickLeft = function(user) {
+            $scope.joinedProject = [];
+            $mdDialog.show({
+                templateUrl: "{% url 'left_dialog' %}",
+                scope: $scope,
+                clickOutsideToClose:true,
+                preserveScope: true,
+            });
+        };
+        $scope.toggle = function (item, list) {
+            var idx = list.indexOf(item);
+            if (idx > -1) list.splice(idx, 1);
+            else list.push(item);
+        };
+    });
 {% endblock %}
