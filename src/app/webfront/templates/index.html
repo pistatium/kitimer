@@ -26,9 +26,8 @@
         $scope.onSubmitArrived = function() {
             $http({
                 method: 'POST',
-                url: "{% url 'arrived_api' %}",
+                url: "{% url 'arrived_api' 999999999 %}".replace('999999999', $scope.user.pk),
                 params: {
-
                 },
                 success: function() {
                     $mdDialog.hide();
@@ -36,11 +35,12 @@
             });
         };
         $scope.onSubmitLeft = function() {
+            console.log($scope);
             $http({
                 method: 'POST',
-                url: "{% url 'left_api' %}",
-                params: {
-                    "joined_project": $scope.joined_project
+                url: "{% url 'left_api' 999999999 %}".replace('999999999', $scope.user.pk),
+                data: {
+                    "joined_projects": $scope.joinedProjects,
                 },
                 success: function() {
                     $mdDialog.hide();
@@ -50,6 +50,7 @@
         };
 
         $scope.onClickArrived = function(user) {
+            $scope.user = user;
             $mdDialog.show({
                 templateUrl: "{% url 'arrived_dialog' %}",
                 scope: $scope,
@@ -58,7 +59,8 @@
             });
         };
         $scope.onClickLeft = function(user) {
-            $scope.joinedProject = [];
+            $scope.user = user;
+            $scope.joinedProjects = [];
             $mdDialog.show({
                 templateUrl: "{% url 'left_dialog' %}",
                 scope: $scope,

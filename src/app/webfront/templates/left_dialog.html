@@ -10,8 +10,8 @@
             <fieldset class="standard" flex>
                 <legend>Joined projects</legend>
                 <div flex="50" ng-repeat="project in projects">
-                    <md-checkbox ng-click="toggle(project.fields.name, joinedProject)">
-                        [[ project.fields.name ]]
+                    <md-checkbox ng-click="toggle(project.pk, joinedProjects)">
+                        [[ project.pk ]]
                     </md-checkbox>
                 </div>
             </fieldset>

@@ -1,11 +1,15 @@
 # coding: utf-8
 
+import json
+
 from django.shortcuts import render
 from django.views.generic import View
 from django.core import serializers
+from django.http import JsonResponse
 
 from app.users.models import User
-from app.projects.models import Project
+from app.projects.models import Project, ProjectLog
+from app.timer.models import TimeManager
 
 
 class HomeView(View):
@@ -21,9 +25,16 @@ class HomeView(View):
 
 class ArrivedApiView(View):
     def post(self, request, user_id):
-        pass
+        user = User.objects.get(pk=user_id)
+        timer = TimeManager(user)
+        timer.arrived()
+        return JsonResponse({'success': True})
 
 
 class LeftApiView(View):
     def post(self, request, user_id):
-        pass
+        data=json.loads(request.body.decode('utf-8'))
+        user = User.objects.get(pk=user_id)
+        timer = TimeManager(user)
+        timer.left()
+        ProjectLog.save_projects(user, data["joined_projects"])
