@@ -21,6 +21,9 @@ class TimerLog(models.Model):
     action_type = models.CharField(choices=ACTION_TYPES, max_length=16)
     user = models.ForeignKey(User)
 
+    def __str__(self):
+        return "{} {} {}".format(self.user, self.action_type, self.time)
+
     @classmethod
     def findAll(cls, user, date):
         start_day = timezone.make_aware(datetime.combine(date, time.min))
@@ -46,6 +49,9 @@ class DayLog(models.Model):
         index_together = [
             ("date", "user"),
         ]
+
+    def __str__(self):
+        return "{} {}".format(self.date, self.user)
 
     @classmethod
     def findOrCreate(cls, user, date):

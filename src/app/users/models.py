@@ -14,6 +14,9 @@ class User(models.Model):
     status = models.CharField(choices=STATUS_TYPE, default=ACTIVE, max_length=16)
     icon_url = models.TextField(blank=True)
 
+    def __str__(self):
+        return self.name
+
     @classmethod
     def get_users(cls, status=ACTIVE):
         users = cls.objects.all()
