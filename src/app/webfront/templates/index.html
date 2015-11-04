@@ -29,24 +29,26 @@
                 url: "{% url 'arrived_api' 999999999 %}".replace('999999999', $scope.user.pk),
                 params: {
                 },
-                success: function() {
-                    $mdDialog.hide();
-                }
+            }).then(function() {
+                $mdDialog.hide();
+            }, function(data) {
+                $mdDialog.hide();
+                alert(data.data.message);
             });
         };
         $scope.onSubmitLeft = function() {
-            console.log($scope);
             $http({
                 method: 'POST',
                 url: "{% url 'left_api' 999999999 %}".replace('999999999', $scope.user.pk),
                 data: {
                     "joined_projects": $scope.joinedProjects,
                 },
-                success: function() {
-                    $mdDialog.hide();
-                }
+            }).then(function() {
+                $mdDialog.hide();
+            }, function(data) {
+                $mdDialog.hide();
+                alert(data.data.message);
             });
-            $mdDialog.hide();
         };
 
         $scope.onClickArrived = function(user) {
