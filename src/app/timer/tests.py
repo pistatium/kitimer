@@ -23,7 +23,7 @@ class TimerTest(TestCase):
         manager = TimeManager(self.user)
         manager.arrived(self.ARRIVED_AT)
 
-        day_log = DayLog.findOrCreate(self.user, self.ARRIVED_AT.date())
+        day_log = DayLog.find_or_create(self.user, self.ARRIVED_AT.date())
         timer_logs = TimerLog.findAll(self.user, self.ARRIVED_AT.date())
 
         self.assertEqual(day_log.arrived_at, self.ARRIVED_AT)
@@ -35,7 +35,7 @@ class TimerTest(TestCase):
         manager = TimeManager(self.user)
         manager.left(self.LEFT_AT)
 
-        day_log = DayLog.findOrCreate(self.user, self.LEFT_AT.date())
+        day_log = DayLog.find_or_create(self.user, self.LEFT_AT.date())
         timer_logs = TimerLog.findAll(self.user, self.LEFT_AT.date())
 
         self.assertEqual(day_log.left_at, self.LEFT_AT)
@@ -48,7 +48,7 @@ class TimerTest(TestCase):
         manager.arrived(self.ARRIVED_AT)
         manager.left(self.LEFT_AT)
 
-        day_log = DayLog.findOrCreate(self.user, self.ARRIVED_AT.date())
+        day_log = DayLog.find_or_create(self.user, self.ARRIVED_AT.date())
         timer_logs = TimerLog.findAll(self.user, self.ARRIVED_AT.date())
 
         self.assertEqual(day_log.arrived_at, self.ARRIVED_AT)

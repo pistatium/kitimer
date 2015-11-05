@@ -40,3 +40,9 @@ class ProjectLog(models.Model):
             log.save()
             logs.append(log)
         return logs
+
+    @classmethod
+    def get_logs(cls, date=None):
+        if not date:
+            date = timezone.now().date()
+        return cls.objects.filter(day_log__date=date)

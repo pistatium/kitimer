@@ -54,11 +54,17 @@ class DayLog(models.Model):
         return "{} {}".format(self.date, self.user)
 
     @classmethod
-    def findOrCreate(cls, user, date):
+    def find_or_create(cls, user, date):
         log = cls.objects.filter(user=user, date=date).first()
         if log:
             return log
         return DayLog(user=user, date=date)
+
+    @classmethod
+    def get_logs(cls, date=None):
+        if not date:
+            date = timezone.now().date()
+        return cls.objects.filter(date=date)
 
 
 class TimeManager:
@@ -72,7 +78,7 @@ class TimeManager:
         if not date:
             date = arrived_at.date()
 
-        day_log = DayLog.findOrCreate(self.user, date)
+        day_log = DayLog.find_or_create(self.user, date)
         if day_log.arrived_at:
             raise AlreadyInputError(self.user, date)
         day_log.arrived_at = arrived_at
@@ -92,7 +98,7 @@ class TimeManager:
             left_at = timezone.now()
         if not date:
             date = left_at.date()
-        day_log = DayLog.findOrCreate(self.user, date)
+        day_log = DayLog.find_or_create(self.user, date)
         if day_log.left_at:
             raise AlreadyInputError(self.user, date)
         day_log.left_at = left_at
@@ -112,7 +118,7 @@ class TimeManager:
         if not day_log:
             if not date:
                 date = timezone.now().date()
-            day_log = DayLog.findOrCreate(self.user, date)
+            day_log = DayLog.find_or_create(self.user, date)
 
         if not day_log.arrived_at:
             raise BlankArrivedAtError(self.user, date)

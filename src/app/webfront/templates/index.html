@@ -12,9 +12,12 @@
 {% endblock %}
 
 {% block controller %} //<script>
+
     var users = {{ users|safe }};
     var projects = {{ projects|safe }};
+    var project_logs = {{ project_logs|safe }};
     var day_logs = {{ day_logs|safe }};
+
 
 
     app.controller('IndexController', function($scope, $mdDialog, $http) {

@@ -14,12 +14,14 @@ from app.timer.errors import TimerException
 
 class HomeView(View):
     def get(self, request):
-        users = User.get_users(None)
+        users = User.get_users(status=None)
         projects = Project.get_projects()
-        day_logs = []
+        project_logs = ProjectLog.get_logs()
+        day_logs = DayLog.get_logs()
         return render(request, "index.html", {
             "users": serializers.serialize('json', users),
             "projects": serializers.serialize('json', projects),
+            "project_logs": serializers.serialize('json', project_logs),
             "day_logs": serializers.serialize('json', day_logs),
         })
 
