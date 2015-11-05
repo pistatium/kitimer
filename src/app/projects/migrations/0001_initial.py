@@ -14,16 +14,16 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='Project',
             fields=[
-                ('name', models.CharField(serialize=False, primary_key=True, max_length=128)),
+                ('name', models.CharField(max_length=128, serialize=False, primary_key=True)),
             ],
         ),
         migrations.CreateModel(
             name='ProjectLog',
             fields=[
-                ('id', models.AutoField(primary_key=True, verbose_name='ID', serialize=False, auto_created=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('commit_rate', models.FloatField(default=1.0)),
                 ('memo', models.TextField(blank=True)),
-                ('day_log', models.ForeignKey(related_name='projects', to='timer.DayLog')),
+                ('day_log', models.ForeignKey(to='timer.DayLog', related_name='project_logs')),
                 ('project', models.ForeignKey(to='projects.Project')),
             ],
         ),

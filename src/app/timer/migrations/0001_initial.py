@@ -14,10 +14,10 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='DayLog',
             fields=[
-                ('id', models.AutoField(auto_created=True, verbose_name='ID', serialize=False, primary_key=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('date', models.DateField()),
-                ('arrived_at', models.DateTimeField(null=True, blank=True)),
-                ('left_at', models.DateTimeField(null=True, blank=True)),
+                ('arrived_at', models.DateTimeField(blank=True, null=True)),
+                ('left_at', models.DateTimeField(blank=True, null=True)),
                 ('work_time', models.IntegerField(default=-1)),
                 ('rest_time', models.IntegerField(default=60)),
                 ('user', models.ForeignKey(to='users.User')),
@@ -26,7 +26,7 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='TimerLog',
             fields=[
-                ('id', models.AutoField(auto_created=True, verbose_name='ID', serialize=False, primary_key=True)),
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('time', models.DateTimeField()),
                 ('action_type', models.CharField(max_length=16, choices=[('arrived', '出社'), ('left', '退社')])),
                 ('user', models.ForeignKey(to='users.User')),
