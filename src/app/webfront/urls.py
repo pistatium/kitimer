@@ -12,6 +12,5 @@ urlpatterns = [
     url(r'api/users/(\d+)/arrived', ArrivedApiView.as_view(), name='arrived_api'),
     url(r'api/users/(\d+)/left', LeftApiView.as_view(), name='left_api'),
 
-
     url(r'^$', HomeView.as_view(), name='home'),
 ]

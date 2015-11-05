@@ -12,6 +12,8 @@ setup(
     install_requires=[
         'Django',
         'pytz',
+        'djangorestframework',
+        'django-filter',
     ],
     entry_points={
         'console_scripts': [

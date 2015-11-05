@@ -9,20 +9,17 @@ from django.http import JsonResponse
 
 from app.users.models import User
 from app.projects.models import Project, ProjectLog
-from app.timer.models import TimeManager, DayLog
+from app.timer.models import TimeManager
 from app.timer.errors import TimerException
+
 
 class HomeView(View):
     def get(self, request):
         users = User.get_users(status=None)
         projects = Project.get_projects()
-        project_logs = ProjectLog.get_logs()
-        day_logs = DayLog.get_logs()
         return render(request, "index.html", {
             "users": serializers.serialize('json', users),
             "projects": serializers.serialize('json', projects),
-            "project_logs": serializers.serialize('json', project_logs),
-            "day_logs": serializers.serialize('json', day_logs),
         })
 
 

@@ -16,8 +16,11 @@ Including another URLconf
 from django.conf.urls import include, url
 from django.contrib import admin
 
+from app.api.urls import router as api_router
+
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^api/', include(api_router.urls)),
     url(r'^', include('app.webfront.urls')),
 ]

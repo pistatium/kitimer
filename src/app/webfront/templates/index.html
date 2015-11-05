@@ -15,15 +15,28 @@
 
     var users = {{ users|safe }};
     var projects = {{ projects|safe }};
-    var project_logs = {{ project_logs|safe }};
-    var day_logs = {{ day_logs|safe }};
 
 
 
-    app.controller('IndexController', function($scope, $mdDialog, $http) {
+    app.controller('IndexController', function($scope, $mdDialog, $http, $interval) {
         $scope.users = users;
         $scope.projects = projects;
+        $scope.day_logs = [];
 
+        var loadDayLogs = function() {
+            $http({
+                method: 'GET',
+                url: "{% url 'daylog-list' %}",
+            }).then(function(data) {
+                $scope.day_logs = data.data;
+            }, function(data) {
+            });
+        }
+        $scope.getLog = function(user){
+            var logs = $scope.day_logs.filter(function(x) {return x.user == user.pk});
+            if (logs) return logs[0];
+            return {};
+        }
         $scope.onClickCancel = function() {
             $mdDialog.cancel();
         };
@@ -79,5 +92,8 @@
             if (idx > -1) list.splice(idx, 1);
             else list.push(item);
         };
+
+        loadDayLogs();
+        $interval(loadDayLogs, 1000);
     });
 {% endblock %}
