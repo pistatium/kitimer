@@ -20,7 +20,7 @@ class Project(models.Model):
 
 class ProjectLog(models.Model):
     project = models.ForeignKey(Project)
-    day_log = models.ForeignKey(DayLog, related_name='projects')
+    day_log = models.ForeignKey(DayLog, related_name='project_logs')
     commit_rate = models.FloatField(default=1.0)
     memo = models.TextField(blank=True)
 
