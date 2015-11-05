@@ -9,17 +9,18 @@ from django.http import JsonResponse
 
 from app.users.models import User
 from app.projects.models import Project, ProjectLog
-from app.timer.models import TimeManager
+from app.timer.models import TimeManager, DayLog
 from app.timer.errors import TimerException
 
 class HomeView(View):
     def get(self, request):
         users = User.get_users(None)
         projects = Project.get_projects()
-
+        day_logs = []
         return render(request, "index.html", {
             "users": serializers.serialize('json', users),
             "projects": serializers.serialize('json', projects),
+            "day_logs": serializers.serialize('json', day_logs),
         })
 
 
@@ -40,8 +41,8 @@ class LeftApiView(View):
             data=json.loads(request.body.decode('utf-8'))
             user = User.objects.get(pk=user_id)
             timer = TimeManager(user)
-            timer.left()
-            ProjectLog.save_projects(user, data["joined_projects"])
+            day_log = timer.left()
+            ProjectLog.save_projects(day_log, data["joined_projects"])
             return JsonResponse({'success': True})
         except TimerException as e:
             return JsonResponse({'success': False, 'message': str(e)}, status=400)

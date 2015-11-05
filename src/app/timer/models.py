@@ -84,6 +84,7 @@ class TimeManager:
             user=self.user
         )
         time_log.save()
+        return day_log
 
     @transaction.atomic
     def left(self, left_at=None, date=None):
@@ -105,6 +106,7 @@ class TimeManager:
             user=self.user
         )
         time_log.save()
+        return day_log
 
     def clean(self, date=None, day_log=None):
         if not day_log:

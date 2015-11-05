@@ -4,6 +4,7 @@ from django.db import models
 from django.utils import timezone
 
 from app.users.models import User
+from app.timer.models import DayLog
 
 
 class Project(models.Model):
@@ -19,25 +20,21 @@ class Project(models.Model):
 
 class ProjectLog(models.Model):
     project = models.ForeignKey(Project)
-    user = models.ForeignKey(User)
-    date = models.DateField()
+    day_log = models.ForeignKey(DayLog, related_name='projects')
     commit_rate = models.FloatField(default=1.0)
     memo = models.TextField(blank=True)
 
     def __str__(self):
-        return "{} {} {}".format(self.project, self.user, self.date)
+        return "{} {}".format(self.day_log, self.project)
 
     @classmethod
-    def save_projects(cls, user, project_names, date=None):
-        if not date:
-            date = timezone.now().date()
+    def save_projects(cls, day_log, project_names):
         logs = []
         for name in project_names:
             project = Project.objects.get(pk=name)
             log = cls(
                 project=project,
-                user=user,
-                date=date,
+                day_log=day_log,
                 commit_rate= 1 / len(project_names),
             )
             log.save()
