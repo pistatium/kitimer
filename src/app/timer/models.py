@@ -117,5 +117,5 @@ class TimeManager:
         if not day_log.left_at:
             raise BlankLeftAtError(self.user, date)
         in_office_minutes = (day_log.left_at - day_log.arrived_at).seconds / 60
-        day_log.work_time = in_office_minutes - day_log.rest_time
+        day_log.work_time = max(in_office_minutes - day_log.rest_time, 0)
         day_log.save()
