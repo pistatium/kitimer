@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block main %}
+    {{ uj }}
+    <div ng-controller="IndexController">
+        <md-list>
+            <md-list-item layout="row" ng-repeat="user in users">
+                {% include "includes/user_list_item.html" %}
+            </md-list-item>
+        </md-list>
+    </div>
+{% endblock %}
+
+{% block controller %} //<script>
+
+    var users = {{ users|safe }};
+    var projects = {{ projects|safe }};
+
+
+
+    app.controller('IndexController', function($scope, $mdDialog, $http, $interval) {
+        $scope.users = users;
+        $scope.projects = projects;
+        $scope.day_logs = [];
+
+        var loadDayLogs = function() {
+            $http({
+                method: 'GET',
+                url: "{% url 'daylog-list' %}",
+            }).then(function(data) {
+                $scope.day_logs = data.data;
+            }, function(data) {
+            });
+        }
+        $scope.getLog = function(user){
+            var logs = $scope.day_logs.filter(function(x) {return x.user == user.pk});
+            if (logs) return logs[0];
+            return {};
+        }
+        $scope.onClickCancel = function() {
+            $mdDialog.cancel();
+        };
+        $scope.onSubmitArrived = function() {
+            $http({
+                method: 'POST',
+                url: "{% url 'arrived_api' 999999999 %}".replace('999999999', $scope.user.pk),
+                params: {
+                },
+            }).then(function() {
+                $mdDialog.hide();
+            }, function(data) {
+                $mdDialog.hide();
+                alert(data.data.message);
+            });
+        };
+        $scope.onSubmitLeft = function() {
+            $http({
+                method: 'POST',
+                url: "{% url 'left_api' 999999999 %}".replace('999999999', $scope.user.pk),
+                data: {
+                    "joined_projects": $scope.joinedProjects,
+                },
+            }).then(function() {
+                $mdDialog.hide();
+            }, function(data) {
+                $mdDialog.hide();
+                alert(data.data.message);
+            });
+        };
+
+        $scope.onClickArrived = function(user) {
+            $scope.user = user;
+            $mdDialog.show({
+                templateUrl: "{% url 'arrived_dialog' %}",
+                scope: $scope,
+                clickOutsideToClose:true,
+                preserveScope: true,
+            });
+        };
+        $scope.onClickLeft = function(user) {
+            $scope.user = user;
+            $scope.joinedProjects = [];
+            $mdDialog.show({
+                templateUrl: "{% url 'left_dialog' %}",
+                scope: $scope,
+                clickOutsideToClose:true,
+                preserveScope: true,
+            });
+        };
+        $scope.toggle = function (item, list) {
+            var idx = list.indexOf(item);
+            if (idx > -1) list.splice(idx, 1);
+            else list.push(item);
+        };
+
+        loadDayLogs();
+        $interval(loadDayLogs, 1000);
+    });
+{% endblock %}

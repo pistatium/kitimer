@@ -37,6 +37,11 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
+    'app.users',
+    'app.timer',
+    'app.webfront',
+    'app.projects',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -50,7 +55,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.security.SecurityMiddleware',
 )
 
-ROOT_URLCONF = 'kitimer.kitimer.urls'
+ROOT_URLCONF = 'app.kitimer.urls'
 
 TEMPLATES = [
     {
@@ -68,7 +73,7 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'kitimer.kitimer.wsgi.application'
+WSGI_APPLICATION = 'app.kitimer.wsgi.application'
 
 
 # Database
@@ -100,3 +105,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}

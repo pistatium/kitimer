@@ -1,0 +1,16 @@
+<md-dialog aria-label="Arrived" class="timer-dialog" ng-cloak>
+    <form>
+        <md-toolbar>
+            <div class="md-toolbar-tools">
+                <h2>ArrivedAt</h2>
+            </div>
+        </md-toolbar>
+        <md-dialog-content>
+            <h3 class="time">[[ time ]]</h3>
+            <div layout="row" class="dialog-actions">
+                <md-button class="md-raised" ng-click="onClickCancel()">Cancel</md-button>
+                <md-button class="md-raised md-accent" ng-click="onSubmitArrived()" flex>OK</md-button>
+            </div>
+        </md-dialog-content>
+    </form>
+</md-dialog>
