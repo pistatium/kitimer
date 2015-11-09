@@ -2,5 +2,8 @@
 <h3>[[user.fields.name]]</h3>
 
 <div flex></div>
+<md-button ng-disabled="true" ng-if="!!getLog(user).arrived_at">[[formatTime(getLog(user).arrived_at)]]</md-button>
 <md-button class="md-raised" ng-click="onClickArrived(user)" ng-if="!getLog(user).arrived_at">Arrived</md-button>
+
+<md-button ng-disabled="true" ng-if="!!getLog(user).left_at">[[formatTime(getLog(user).left_at)]]</md-button>
 <md-button class="md-raised" ng-click="onClickLeft(user)" ng-if="!getLog(user).left_at">Left</md-button>
