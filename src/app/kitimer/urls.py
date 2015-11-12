@@ -22,5 +22,6 @@ from app.api.urls import router as api_router
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include(api_router.urls)),
+    url(r'^report/', include('app.report.urls')),
     url(r'^', include('app.webfront.urls')),
 ]

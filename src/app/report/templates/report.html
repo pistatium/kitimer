@@ -1,0 +1,75 @@
+{% load staticfiles %}<!DOCTYPE html>
+<html ng-app="App">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.2/angular-material.min.css">
+    <link rel="stylesheet" href="{% static 'styles/main.css' %}">
+    <title>{{ title|default:"KiTimer" }}</title>
+</head>
+<body ng-controller="ReportController">
+<md-toolbar layout="row">
+    <div class="md-toolbar-tools" flex>
+        <h1>Report</h1>
+    </div>
+    <p>[[date]] [[time]]&nbsp;</p>
+</md-toolbar>
+<div>
+    <div ng-repeat="log in day_logs">
+        [[log.date]],
+        [[log.user.name]],
+        <span ng-repeat="project in log.project_logs">[[project.project]]</span>,
+        [[log.arrived_at]],
+        [[log.left_at]]
+    </div>
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-animate.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular-aria.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.11.2/angular-material.min.js"></script>
+<script>
+    var app = angular.module('App', ['ngMaterial']);
+    app.config(function($interpolateProvider) {
+        $interpolateProvider.startSymbol('[[');
+        $interpolateProvider.endSymbol(']]');
+    });
+    app.config(function($httpProvider) {
+        $httpProvider.defaults.xsrfCookieName = 'csrftoken';
+        $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
+    });
+    app.config(function($mdThemingProvider) {
+        $mdThemingProvider.theme('default')
+                .primaryPalette('teal')
+                .accentPalette('red');
+    });
+    app.controller('ReportController', function($scope, $interval, $http) {
+        var updateTime = function() {
+            now = new Date();
+            $scope.date = now.toLocaleDateString();
+            $scope.time = now.toLocaleTimeString();
+        };
+        var loadDayLogs = function() {
+            $http({
+                method: 'GET',
+                url: "{% url 'daylog-list' %}",
+                params: {
+                }
+            }).then(function(data) {
+                $scope.day_logs = data.data;
+            }, function(data) {
+            });
+        };
+
+        $scope.formatTime = function(dt) {
+            if (!dt) return "";
+            var t = new Date(dt);
+            return t.getHours() + ":" + t.getMinutes();
+        };
+
+        $interval(updateTime, 500);
+        $interval(loadDayLogs, 500);
+    });
+    {% block controller %}{% endblock %}
+</script>
+</body>
+</html>

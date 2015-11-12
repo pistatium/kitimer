@@ -36,7 +36,7 @@
             });
         }
         $scope.getLog = function(user){
-            var logs = $scope.day_logs.filter(function(x) {return x.user == user.pk});
+            var logs = $scope.day_logs.filter(function(x) {return x.user.id == user.pk});
             if (logs) return logs[0];
             return {};
         }

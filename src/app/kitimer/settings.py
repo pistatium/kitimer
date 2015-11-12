@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'crispy_forms',
     'app.users',
     'app.timer',
+    'app.report',
     'app.webfront',
     'app.projects',
 )
