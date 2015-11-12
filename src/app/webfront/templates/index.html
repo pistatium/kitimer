@@ -27,6 +27,9 @@
             $http({
                 method: 'GET',
                 url: "{% url 'daylog-list' %}",
+                params: {
+                    date: ($scope.date || "x").replace(/\//g, "-")
+                }
             }).then(function(data) {
                 $scope.day_logs = data.data;
             }, function(data) {

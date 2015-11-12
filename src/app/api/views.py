@@ -21,16 +21,16 @@ class ProjectLogViewSet(viewsets.ModelViewSet):
 
 class DayLogFilter(django_filters.FilterSet):
     user_id = django_filters.ModelChoiceFilter(name='user_id', to_field_name='id', queryset=User.objects.all())
-    date_range = django_filters.DateFromToRangeFilter(name='date')
+    #date_range = django_filters.DateFromToRangeFilter(name='date')
+    date = django_filters.DateFilter()
 
     class Meta:
         model = DayLog
-        fields = ['date_range', 'user_id']
+        fields = ['date', 'user_id']
 
 
 class DayLogViewSet(viewsets.ModelViewSet):
-    queryset = DayLog.get_logs()
-    #queryset = DayLog.objects.all()
+    queryset = DayLog.objects.all()
     serializer_class = DayLogSerializer
     filter_backends = (filters.DjangoFilterBackend,)
     filter_class = DayLogFilter
