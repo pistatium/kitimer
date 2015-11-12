@@ -14,6 +14,7 @@ setup(
         'pytz',
         'djangorestframework',
         'django-filter',
+        'django-crispy-forms',
     ],
     entry_points={
         'console_scripts': [

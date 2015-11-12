@@ -10,4 +10,6 @@ class TimerLogAdmin(admin.ModelAdmin):
 
 @admin.register(DayLog)
 class DayLogAdmin(admin.ModelAdmin):
+    list_display = ('__str__', 'arrived_at', 'left_at')
+    list_filter = ('user', 'date')
     pass

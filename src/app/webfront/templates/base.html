@@ -12,7 +12,7 @@
         <div class="md-toolbar-tools" flex>
             <h1>KiTimer</h1>
         </div>
-        <p>[[date]] [[time]] </p>
+        <p>[[date]] [[time]]&nbsp;</p>
 
     </md-toolbar>
     {% block main %}{% endblock %}
@@ -31,11 +31,21 @@
             $httpProvider.defaults.xsrfCookieName = 'csrftoken';
             $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
         });
+        app.config(function($mdThemingProvider) {
+            $mdThemingProvider.theme('default')
+                    .primaryPalette('teal')
+                    .accentPalette('red');
+        });
         app.controller('BaseController', function($scope, $interval) {
             var updateTime = function() {
                 now = new Date();
                 $scope.date = now.toLocaleDateString();
                 $scope.time = now.toLocaleTimeString();
+            };
+            $scope.formatTime = function(dt) {
+                if (!dt) return "";
+                var t = new Date(dt);
+                return t.getHours() + ":" + t.getMinutes();
             };
             $interval(updateTime, 500);
         });

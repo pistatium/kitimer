@@ -1,6 +1,7 @@
 # coding: utf-8
 
-from rest_framework import viewsets
+import django_filters
+from rest_framework import viewsets, filters
 
 from .serializers import UserSerializer, ProjectLogSerializer, DayLogSerializer
 from app.users.models import User
@@ -18,6 +19,17 @@ class ProjectLogViewSet(viewsets.ModelViewSet):
     serializer_class = ProjectLogSerializer
 
 
+class DayLogFilter(django_filters.FilterSet):
+    user_id = django_filters.ModelChoiceFilter(name='user_id', to_field_name='id', queryset=User.objects.all())
+    date = django_filters.DateFilter()
+
+    class Meta:
+        model = DayLog
+        fields = ['date', 'user_id']
+
+
 class DayLogViewSet(viewsets.ModelViewSet):
-    queryset = DayLog.get_logs()
+    queryset = DayLog.objects.all().order_by('-date')
     serializer_class = DayLogSerializer
+    filter_backends = (filters.DjangoFilterBackend,)
+    filter_class = DayLogFilter

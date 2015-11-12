@@ -2,7 +2,7 @@
 
 {% block main %}
     {{ uj }}
-    <div ng-controller="IndexController">
+    <div ng-controller="IndexController" layout-margin>
         <md-list>
             <md-list-item layout="row" ng-repeat="user in users">
                 {% include "includes/user_list_item.html" %}
@@ -27,13 +27,16 @@
             $http({
                 method: 'GET',
                 url: "{% url 'daylog-list' %}",
+                params: {
+                    date: ($scope.date || "x").replace(/\//g, "-")
+                }
             }).then(function(data) {
                 $scope.day_logs = data.data;
             }, function(data) {
             });
         }
         $scope.getLog = function(user){
-            var logs = $scope.day_logs.filter(function(x) {return x.user == user.pk});
+            var logs = $scope.day_logs.filter(function(x) {return x.user.id == user.pk});
             if (logs) return logs[0];
             return {};
         }
